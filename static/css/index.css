@@ -1,0 +1,38 @@
+.grades {
+    font-size: 14px;
+    color: #888888;
+    margin-left: 10px;
+}
+
+.description {
+    word-break:break-word;
+    margin-top: 10px;
+}
+
+.item {
+    color: #888888;
+}
+
+.item:not(:first-child) {
+    margin-left: 10px;
+}
+
+.capstone {
+    margin: 0 !important;
+}
+
+.btn {
+ margin-left: 16px !important;
+ line-height: 1;
+}
+
+.form-inline input {
+    width: 400px;
+}
+
+.assignment-homework, .assignment-exam {
+    color: #007bff;
+    margin-left:10px;
+    cursor: pointer;
+}
+

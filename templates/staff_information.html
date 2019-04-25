@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+  <div class="container">
+    <div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-body" style="margin-top:10px;">
+    <p style="font-size:18px">Sections Information</p>
+  </div>
+
+  <ul class="list-group">
+      {% for section in sectionsInfo %}
+        <li class="list-group-item">
+            <span>
+            {{section.course_name}}
+        </span>
+         <span class="grades">
+            {{section.course_id}}
+        </span>
+            <span href="" class='assignment-homework'>Assignment Homework</span>
+            <span href="" class='assignment-exam'>Assignment Exam</span>
+                <p class="description">
+                    <span class="item">Section:{{section.sec_no}}</span>
+                    <span class="item">Type:{{section.section_type}}</span>
+                    <span class="item">SectionLimit:{{section.limit}}</span>
+                </p>
+                <p class="description homework">
+                    <p>Homeworks
+
+                    </p>
+                    <p class="description">
+                        {% for homework in section.homeworksList %}
+                            <span class="item">HW_No:{{homework.hw_no}}</span>
+                            <span class="item">HW_Detail:{{homework.hw_detail}}</span>
+                        {% endfor %}
+                    </p>
+                    <form class="form-inline" id="homework-form">
+                        <input type="text" />
+                        <button type="submit" class="btn">cancel</button>
+                        <button type="submit" class="btn">submit</button>
+			        </form>
+                </p>
+
+            {% ifequal section.section_type 'Reg' %}
+                <p class="description">
+                    <p>Exams</p>
+                    <p class="description">
+                        {% for exam in section.examsList %}
+                            <span class="item">Exam_No:{{exam.exam_no}}</span>
+                            <span class="item">Exam_Detail:{{exam.exam_details}}</span>
+                        {% endfor %}
+                    </p>
+                </p>
+            {% endifequal %}
+
+        </li>
+      {% endfor %}
+  </ul>
+</div>
+
+  </div>
+    <script>
+        $("#homework-form").hide()
+        $(".assignment-homework").click(function(){
+            $("#homework-form").toggle();
+        });
+    </script>
+{% endblock %}

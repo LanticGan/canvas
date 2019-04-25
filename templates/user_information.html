@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-body" style="margin-top:10px;">
+                <p style="font-size:18px">Course Information</p>
+            </div>
+
+            <!-- List group -->
+            <ul class="list-group">
+                {% for course in course_list %}
+                    <li class="list-group-item">
+        <span>
+            {{ course.Course_id }} - {{ course.Course_name }}
+        </span>
+
+                        <p class="description">
+                            Details:{{ course.Course_description }}
+                        </p>
+                        <p>Professor information</p>
+                        {% for professor in course.Professors %}
+                            <p class="professor">
+                                <span class="item">Professor Email:{{ professor.email }} - Office:{{ professor.office }}</span>
+                            </p>
+                        {% endfor %}
+                        <p>Homeworks</p>
+                        {% for homework in course.Homeworks %}
+                            <p class="homework">
+                                <span class="item">Homework number: {{ homework.Homework_number }} </span>
+                            </p>
+                            <p class="homework">
+                                <span class="item">Homework {{ homework.Homework_number }} details: {{ homework.Homework_detail }} </span>
+                            </p>
+                            <p class="homework">
+                                <span class="item">Homework {{ homework.Homework_number }} grade: {{ homework.Homework_grade }} </span>
+                            </p>
+                        {% endfor %}
+
+                        {% ifequal course.Course_section_type 'Reg' %}
+                            <p>Exams</p>
+                            {% for exam in course.Exams %}
+                                <p class="exam">
+                                    <span class="item">Exam number: {{ exam.Exam_number }} Exam details: {{ exam.Exam_detail }} Exam grade: {{ exam.Exam_grade }}</span>
+                                </p>
+                            {% endfor %}
+                        {% endifequal %}
+
+                    </li>
+                {% endfor %}
+
+            </ul>
+        </div>
+    </div>
+{% endblock %}

@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
 from .form import UserLoginForm, SignUpForm, ChangePasswardForm
 from .models import MyUser, Student, Zipcode, Enrolls, Course, Section, Professor, Prof_team_members, Homework, \
-    Homework_grades, Exams, Exam_grades
+    Homework_grades, Exams, Exam_grades, Capstone_setion, Capstone_Team, Capstone_Team_Members, Capstone_grades
 
 
 # Create your views here.
@@ -109,16 +109,51 @@ def home(request):
                 sectionItem['course_name'] = course.course_name
                 sectionItem['course_id'] = course.course_id
 
-                homeworks = Homework.objects.filter(sec_no=section.sec_no, course_id_id=section.course_id_id)
-                exams = Exams.objects.filter(sec_no=section.sec_no, course_id_id=section.course_id_id)
-
                 homeworksList = []
+                examsList = []
+
+                if section.section_type=='Reg':
+                    exams = Exams.objects.filter(sec_no=section.sec_no, course_id_id=section.course_id_id)
+                    for exam in exams:
+                        examItem = {}
+                        examItem['exam_no'] = exam.exam_no
+                        examItem['exam_detail'] = exam.exam_details
+                        examsList.append(examItem)
+
+                sectionItem['examsList'] = examsList
+
+                if section.section_type=='Cap':
+                    capstone_setions = Capstone_setion.objects.filter(sec_no=section.sec_no, course_id_id=section.course_id_id)
+                    projectsList = []
+                    for setion in capstone_setions:
+                        prjectItem = {}
+                        project_id = setion.project_no
+                        capstone_teams = Capstone_Team.objects.filter(sec_no=section.sec_no, course_id_id=section.course_id_id,project_id_id=project_id)
+                        print(capstone_teams)
+                        teamsList = []
+                        for team in capstone_teams:
+                            teamItem = {}
+                            team_members = Capstone_Team_Members.objects.filter(course_id=section.course_id_id,
+                                                                             project_no_id=capstone_setion.project_no,
+                                                                             team_id=team.id)
+                            membersList = []
+                            for team_member in team_members:
+                                membersList.append(team_member.student_email_id)
+
+                            teamItem['members'] = membersList
+                            teamsList.append(team)
+                        prjectItem['teams'] = teamsList
+                        projectsList.append(prjectItem)
+                    sectionItem['projectsList'] = projectsLists
+
+                homeworks = Homework.objects.filter(sec_no=section.sec_no, course_id_id=section.course_id_id)
                 for homework in homeworks:
                     homeworkItem = {}
                     homeworkItem['hw_no'] = homework.hw_no
                     homeworkItem['hw_detail'] = homework.hw_detail
                     homeworksList.append(homeworkItem)
 
+<<<<<<< HEAD
                 examsList = []
                 for exam in exams:
                     examItem = {}
@@ -126,8 +161,10 @@ def home(request):
                     examItem['exam_details'] = exam.exam_details
                     examsList.append(examItem)
 
+=======
+>>>>>>> df6247b6eb6fb7dfc6a9ec16bfbbb06812e8100a
                 sectionItem['homeworksList'] = homeworksList
-                sectionItem['examsList'] = examsList
+
 
             context = {}
             context['professorInfo'] = professorInfo
@@ -177,6 +214,7 @@ def change_password(request):
     else:
         return render(request, "changepwd.html", {'form': ChangePasswardForm()})
 
+<<<<<<< HEAD
 def create_assignment(request, course, section):
     if request.method == 'POST':
         Homework.objects.create(sec_no=section, course_id_id=course, hw_no=int(request.POST["hw_no"]), hw_detail=request.POST["hw_details"])
@@ -186,3 +224,7 @@ def create_exam(request, course, section):
     if request.method == 'POST':
         Exams.objects.create(sec_no=section, course_id_id=course, exam_no=int(request.POST["exam_no"]), exam_details=request.POST["exam_details"])
         return redirect("home")
+=======
+def score(request):
+    return render(request, "score.html")
+>>>>>>> df6247b6eb6fb7dfc6a9ec16bfbbb06812e8100a

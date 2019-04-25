@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
+from django.http import HttpResponse
 from .form import UserLoginForm, SignUpForm, ChangePasswardForm
 from .models import MyUser, Student, Zipcode, Enrolls, Course, Section, Professor, Prof_team_members, Homework, \
     Homework_grades, Exams, Exam_grades
@@ -83,6 +84,7 @@ def home(request):
 
 
         elif user.is_student == '0':
+
             professor = Professor.objects.get(user=email)
             professorInfo = {}
             professorInfo['name'] = professor.name

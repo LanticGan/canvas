@@ -36,10 +36,18 @@
                             <span class="item">HW_Detail:{{homework.hw_detail}}</span>
                         {% endfor %}
                     </p>
-                    <form class="form-inline" id="homework-form">
-                        <input type="text" />
-                        <button type="submit" class="btn">cancel</button>
-                        <button type="submit" class="btn">submit</button>
+                    <form class="form-inline homework-form" action="/assignhomework" method="post">
+                        {% csrf_token %}
+                        <p >
+                            <span>Hw_No:</span>
+                            <input type="text" name="hw_no" style="width:100px">
+                        </p>
+                        <p style="margin-left:10px">
+                            <span>Hw_Detail:</span>
+                            <input type="text" name="hw_details"/>
+                            <button type="submit" class="btn">submit</button>
+                        </p>
+
 			        </form>
                 </p>
 
@@ -52,6 +60,17 @@
                             <span class="item">Exam_Detail:{{exam.exam_details}}</span>
                         {% endfor %}
                     </p>
+                    <form class="form-inline exam-form" action="/assignexam" method="post">
+                        <p >
+                            <span>Exam_No:</span>
+                            <input type="text" name="exam_no" style="width:100px">
+                        </p>
+                        <p style="margin-left:10px">
+                            <span>Exam_Details:</span>
+                            <input type="text" name="exam_details" />
+                            <button type="submit" class="btn">submit</button>
+                        </p>
+			        </form>
                 </p>
             {% endifequal %}
 
@@ -62,9 +81,15 @@
 
   </div>
     <script>
-        $("#homework-form").hide()
-        $(".assignment-homework").click(function(){
-            $("#homework-form").toggle();
+        $(".homework-form").hide()
+        $(".exam-form").hide()
+        $(".assignment-homework").click(function(e){
+            form = $(e.target).siblings('form')[0]
+            $(form).toggle();
+        });
+        $(".assignment-exam").click(function(e){
+            form = $(e.target).siblings('form')[1]
+            $(form).toggle();
         });
     </script>
 {% endblock %}

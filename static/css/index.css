@@ -36,3 +36,14 @@
     cursor: pointer;
 }
 
+.assignment-team {
+ color: #007bff;
+    margin-left:10px;
+    cursor: pointer;
+}
+
+.score-container {
+width:420px;
+height:200px;
+margin: 0 auto;
+}

@@ -19,6 +19,7 @@
                         <span class="grades">
             {{ section.course_id }}
         </span>
+<<<<<<< HEAD
                         <span href="" class='assignment-homework'>Create Assignment </span>
                         <span href="" class='assignment-exam'>Create Exam</span>
                         <p class="description">
@@ -28,6 +29,23 @@
                         </p>
                         <p class="description homework">
                         <p>Homeworks
+=======
+            <span href="" class='assignment-homework'>Assignment Homework</span>
+            {% ifequal section.section_type 'Reg' %}
+                <span href="" class='assignment-exam'>Assignment Exam</span>
+            {% endifequal %}
+             {% ifequal section.section_type 'Cap' %}
+                <span href="" class='assignment-team'>Add Team</span>
+            {% endifequal %}
+
+                <p class="description">
+                    <span class="item">Section:{{section.sec_no}}</span>
+                    <span class="item">Type:{{section.section_type}}</span>
+                    <span class="item">SectionLimit:{{section.limit}}</span>
+                </p>
+                <p class="description homework">
+                    <p>Homeworks
+>>>>>>> df6247b6eb6fb7dfc6a9ec16bfbbb06812e8100a
 
                         </p>
                         <p class="description">
@@ -56,6 +74,7 @@
                         {% endwith %}
 
 
+<<<<<<< HEAD
                         {% ifequal section.section_type 'Reg' %}
                             <p class="description">
                             <p>Exams</p>
@@ -88,9 +107,49 @@
                 {% endfor %}
             </ul>
         </div>
+=======
+            {% ifequal section.section_type 'Cap' %}
+                <p class="description">
+                    <p>Teams</p>
+                    <p class="description">
+                        {% for exam in section.examsList %}
+                            <span class="item">Exam_No:{{exam.exam_no}}</span>
+                            <span class="item">Exam_Detail:{{exam.exam_details}}</span>
+                        {% endfor %}
+                    </p>
+                    <form class="form-inline teams" action="/addteam" method="post">
+                        <p >
+                            <span>Project_id:</span>
+                            <input type="text" name="project_id" style="width:60px">
+                        </p>
+                        <p >
+                            <span style="margin-left:10px;">Team_id:</span>
+                            <input type="text" name="team_id" style="width:60px">
+                        </p>
+                         <p >
+                            <span style="margin-left:10px;">member1:</span>
+                            <input type="text" name="team_id" style="width:60px">
+                             <span style="margin-left:10px;">member2:</span>
+                            <input type="text" name="team_id" style="width:60px">
+                             <span style="margin-left:10px;">member3:</span>
+                            <input type="text" name="team_id" style="width:60px">
+                             <span style="margin-left:10px;">member4:</span>
+                            <input type="text" name="team_id" style="width:60px">
+                             <button type="submit" class="btn">submit</button>
+                        </p>
+			        </form>
+                </p>
+            {% endifequal %}
+
+        </li>
+      {% endfor %}
+  </ul>
+</div>
+>>>>>>> df6247b6eb6fb7dfc6a9ec16bfbbb06812e8100a
 
     </div>
     <script>
+        $(".teams").hide()
         $(".homework-form").hide()
         $(".exam-form").hide()
         $(".assignment-homework").click(function (e) {
@@ -98,6 +157,10 @@
             $(form).toggle();
         });
         $(".assignment-exam").click(function (e) {
+            form = $(e.target).siblings('form')[1]
+            $(form).toggle();
+        });
+        $(".assignment-team").click(function(e){
             form = $(e.target).siblings('form')[1]
             $(form).toggle();
         });

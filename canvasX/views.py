@@ -162,11 +162,7 @@ def signup(request):
     return render(request, 'signup.html', {'form': form})
 
 
-def simulate(request):
-    pass
-
-
-def change_passward(request):
+def change_password(request):
     if request.method == 'POST':
         if request.user.is_authenticated:
             password = request.POST['password']

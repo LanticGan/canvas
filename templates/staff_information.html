@@ -1,93 +1,103 @@
 {% extends 'base.html' %}
-
+{% load canvasX_extras %}
 {% load static %}
 
 {% block content %}
-  <div class="container">
-    <div class="panel panel-default">
-  <!-- Default panel contents -->
-  <div class="panel-body" style="margin-top:10px;">
-    <p style="font-size:18px">Sections Information</p>
-  </div>
+    <div class="container">
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-body" style="margin-top:10px;">
+                <p style="font-size:18px">Sections Information</p>
+            </div>
 
-  <ul class="list-group">
-      {% for section in sectionsInfo %}
-        <li class="list-group-item">
+            <ul class="list-group">
+                {% for section in sectionsInfo %}
+                    <li class="list-group-item">
             <span>
-            {{section.course_name}}
+            {{ section.course_name }}
         </span>
-         <span class="grades">
-            {{section.course_id}}
+                        <span class="grades">
+            {{ section.course_id }}
         </span>
-            <span href="" class='assignment-homework'>Assignment Homework</span>
-            <span href="" class='assignment-exam'>Assignment Exam</span>
-                <p class="description">
-                    <span class="item">Section:{{section.sec_no}}</span>
-                    <span class="item">Type:{{section.section_type}}</span>
-                    <span class="item">SectionLimit:{{section.limit}}</span>
-                </p>
-                <p class="description homework">
-                    <p>Homeworks
-
-                    </p>
-                    <p class="description">
-                        {% for homework in section.homeworksList %}
-                            <span class="item">HW_No:{{homework.hw_no}}</span>
-                            <span class="item">HW_Detail:{{homework.hw_detail}}</span>
-                        {% endfor %}
-                    </p>
-                    <form class="form-inline homework-form" action="/assignhomework" method="post">
-                        {% csrf_token %}
-                        <p >
-                            <span>Hw_No:</span>
-                            <input type="text" name="hw_no" style="width:100px">
+                        <span href="" class='assignment-homework'>Create Assignment </span>
+                        <span href="" class='assignment-exam'>Create Exam</span>
+                        <p class="description">
+                            <span class="item">Section:{{ section.sec_no }}</span>
+                            <span class="item">Type:{{ section.section_type }}</span>
+                            <span class="item">SectionLimit:{{ section.limit }}</span>
                         </p>
-                        <p style="margin-left:10px">
-                            <span>Hw_Detail:</span>
-                            <input type="text" name="hw_details"/>
-                            <button type="submit" class="btn">submit</button>
+                        <p class="description homework">
+                        <p>Homeworks
+
+                        </p>
+                        <p class="description">
+                            {% for homework in section.homeworksList %}
+                                <p>
+                                    <span class="item">HW_No:{{ homework.hw_no }}</span>
+                                    <span class="item">HW_Detail:{{ homework.hw_detail }}</span>
+                                </p>
+
+                            {% endfor %}
                         </p>
 
-			        </form>
-                </p>
+                        {% with "/createAssignment/"|addstr:section.course_id|addstr:"/"|addstr:section.sec_no|addstr:"/" as updated_url %}
+                            <form class="form-inline homework-form" action={{ updated_url }} method="post">
+                                {% csrf_token %}
+                                <p>
+                                    <span>Hw_No:</span>
+                                    <input type="text" name="hw_no" style="width:100px">
+                                </p>
+                                <p style="margin-left:10px">
+                                    <span>Hw_Detail:</span>
+                                    <input type="text" name="hw_details"/>
+                                    <button type="submit" class="btn">submit</button>
+                                </p>
+                            </form>
+                        {% endwith %}
 
-            {% ifequal section.section_type 'Reg' %}
-                <p class="description">
-                    <p>Exams</p>
-                    <p class="description">
-                        {% for exam in section.examsList %}
-                            <span class="item">Exam_No:{{exam.exam_no}}</span>
-                            <span class="item">Exam_Detail:{{exam.exam_details}}</span>
-                        {% endfor %}
-                    </p>
-                    <form class="form-inline exam-form" action="/assignexam" method="post">
-                        <p >
-                            <span>Exam_No:</span>
-                            <input type="text" name="exam_no" style="width:100px">
-                        </p>
-                        <p style="margin-left:10px">
-                            <span>Exam_Details:</span>
-                            <input type="text" name="exam_details" />
-                            <button type="submit" class="btn">submit</button>
-                        </p>
-			        </form>
-                </p>
-            {% endifequal %}
 
-        </li>
-      {% endfor %}
-  </ul>
-</div>
+                        {% ifequal section.section_type 'Reg' %}
+                            <p class="description">
+                            <p>Exams</p>
+                            <p class="description">
+                                {% for exam in section.examsList %}
+                                    <p>
+                                        <span class="item">Exam_No:{{ exam.exam_no }}</span>
+                                        <span class="item">Exam_Detail:{{ exam.exam_details }}</span>
+                                    </p>
+                                {% endfor %}
+                            </p>
+                            {% with "/createExam/"|addstr:section.course_id|addstr:"/"|addstr:section.sec_no|addstr:"/" as updated_url_1 %}
+                            <form class="form-inline exam-form" action={{ updated_url_1 }} method="post">
+                                {% csrf_token %}
+                                <p>
+                                    <span>Exam_No:</span>
+                                    <input type="text" name="exam_no" style="width:100px">
+                                </p>
+                                <p style="margin-left:10px">
+                                    <span>Exam_Details:</span>
+                                    <input type="text" name="exam_details"/>
+                                    <button type="submit" class="btn">submit</button>
+                                </p>
+                            </form>
+                            {% endwith %}
+                            </p>
+                        {% endifequal %}
 
-  </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+    </div>
     <script>
         $(".homework-form").hide()
         $(".exam-form").hide()
-        $(".assignment-homework").click(function(e){
+        $(".assignment-homework").click(function (e) {
             form = $(e.target).siblings('form')[0]
             $(form).toggle();
         });
-        $(".assignment-exam").click(function(e){
+        $(".assignment-exam").click(function (e) {
             form = $(e.target).siblings('form')[1]
             $(form).toggle();
         });

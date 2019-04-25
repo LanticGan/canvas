@@ -25,4 +25,7 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('logout/', auth_views.LogoutView.as_view(), name="logout"),
     path('changepwd/', views.change_password, name='changepassword'),
+    path('createAssignment/<str:course>/<int:section>/', views.create_assignment, name="createA"),
+    path('createExam/<str:course>/<int:section>/', views.create_exam, name="createE"),
+
 ]

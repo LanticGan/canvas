@@ -86,6 +86,7 @@ def home(request):
         elif user.is_student == '0':
 
             professor = Professor.objects.get(user=email)
+            full_name = professor.name
             professorInfo = {}
             professorInfo['name'] = professor.name
             professorInfo['age'] = professor.age
@@ -122,7 +123,7 @@ def home(request):
                 for exam in exams:
                     examItem = {}
                     examItem['exam_no'] = exam.exam_no
-                    examItem['exam_detail'] = exam.exam_details
+                    examItem['exam_details'] = exam.exam_details
                     examsList.append(examItem)
 
                 sectionItem['homeworksList'] = homeworksList
@@ -131,6 +132,7 @@ def home(request):
             context = {}
             context['professorInfo'] = professorInfo
             context['sectionsInfo'] = sectionsInfo
+            context["full_name"] = full_name
             return render(request, "staff_information.html", context)
 
     else:
@@ -174,3 +176,13 @@ def change_password(request):
         return redirect('login')
     else:
         return render(request, "changepwd.html", {'form': ChangePasswardForm()})
+
+def create_assignment(request, course, section):
+    if request.method == 'POST':
+        Homework.objects.create(sec_no=section, course_id_id=course, hw_no=int(request.POST["hw_no"]), hw_detail=request.POST["hw_details"])
+        return redirect("home")
+
+def create_exam(request, course, section):
+    if request.method == 'POST':
+        Exams.objects.create(sec_no=section, course_id_id=course, exam_no=int(request.POST["exam_no"]), exam_details=request.POST["exam_details"])
+        return redirect("home")

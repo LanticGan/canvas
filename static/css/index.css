@@ -42,3 +42,8 @@
     cursor: pointer;
 }
 
+.score-container {
+width:420px;
+height:200px;
+margin: 0 auto;
+}

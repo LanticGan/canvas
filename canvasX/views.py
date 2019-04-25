@@ -201,3 +201,6 @@ def change_password(request):
         return redirect('login')
     else:
         return render(request, "changepwd.html", {'form': ChangePasswardForm()})
+
+def score(request):
+    return render(request, "score.html")

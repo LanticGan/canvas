@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block body %}
+  <div class="container">
+    <p>
+      <span>CourseId</span><span style="margin-left:20px">ScriontId</span></p>
+    <div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span12">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>
+							Student
+						</th>
+						<th>
+							Score
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							1asdasd@qq.com
+						</td>
+						<td>
+							12
+						</td>
+					</tr>
+					<tr>
+						<td>
+							1asdaaxaasd@qq.com
+						</td>
+						<td>
+							44
+						</td>
+					</tr>
+					<tr>
+						<td>
+							1asdsd@qq.com
+						</td>
+						<td>
+							3
+						</td>
+					</tr>
+					<tr>
+						<td>
+							1asdsd@qq.com
+						</td>
+						<td>
+							2
+						</td>
+					</tr>
+					<tr>
+						<td>
+							1asdsd@qq.com
+						</td>
+						<td>
+							1
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+    <div class="score-container">
+    <form class="form-inline homework-form" action="/assignhomework" method="post">
+      {% csrf_token %}
+      <p >
+        <span>email:</span>
+        <input type="text" name="hw_no" style="width:160px">
+      </p>
+      <p>
+        <span style="margin-left:10px;">score:</span>
+        <input type="text" name="hw_details" style="width:60px"/>
+        <button type="submit" class="btn">submit</button>
+      </p>
+    </form>
+    </div>
+  </div>
+<script>
+</script>
+{% endblock %}
